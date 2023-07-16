@@ -4,3 +4,4 @@ project(SimpleMovingAverage)
 include_directories(${PROJECT_SOURCE_DIR})
 
 add_executable(SimpleMovingAverageTest ./src/main_simple_test.cpp)
+add_executable(SimpleMovingAveragePerfTest ./src/main_perf_test.cpp)
