@@ -10,9 +10,9 @@ RAM: 32 Gb
 
 ```
 ## Dependencies
--- [Docker](https://docs.docker.com/engine/install/)
--- cmake
--- g++
+* [Docker](https://docs.docker.com/engine/install/)
+* cmake
+* g++
 
 ## Calculation moving average
 To test calculations was written some simple tests in the ``src/main_simple_test.cpp``.
