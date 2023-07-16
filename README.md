@@ -1,6 +1,7 @@
 # SimpleMovingAverage
 This project includes a program to study the performance of calculating the moving average for the ``float`` and ``double`` types.
 
+Results with plots [here](https://docs.google.com/spreadsheets/d/1rhCF5kd6Vws83d08faSGaQZvbi4hk-4W0C9_XEf9idE/edit?usp=sharing).
 ## Dependencies
 -- [Docker](https://docs.docker.com/engine/install/)
 -- cmake
