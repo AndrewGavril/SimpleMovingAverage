@@ -3,7 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include "moving_avg.h"
-#define TESTS_PER_WINDOW_LEN 1000
+#define TESTS_PER_WINDOW_LEN 10
 #define VECTOR_GEN_LEN 1000000
 #define RESULT_FILENAME "result.csv"
 #define CSV_HEADER_STRING "WindowSize;FloatMeasurement;DoubleMeasurement;\n"
