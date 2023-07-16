@@ -1,4 +1,3 @@
-#include <type_traits>
 #include <iostream>
 #include <vector>
 #include <cmath>
@@ -8,9 +7,9 @@
 #define COMPLETE_STRING "===All tests have been passed!===\n"
 
 template <typename T>
-bool const isEqual(std::vector<T> const &v1, std::vector<T> const &v2)
+bool const isEqual(std::shared_ptr<std::vector <T>> const &v1, std::shared_ptr<std::vector <T>> const &v2)
 {
-    return std::equal(v1.begin(), v1.end(), v2.begin(),
+    return std::equal(v1->begin(), v1->end(), v2->begin(),
                         [](double value1, double value2)
                         {
                             return std::fabs(value1 - value2) < EPS;
@@ -20,31 +19,31 @@ bool const isEqual(std::vector<T> const &v1, std::vector<T> const &v2)
 
 template <typename T>
 void test_single(){
-    const std::vector <T> v1{3};
-    assert(isEqual<T>(moving_avg<T, 1>(v1), v1));
-    assert(isEqual<T>(moving_avg<T, 2>(v1), v1));
-    assert(isEqual<T>(moving_avg<T, 3>(v1), v1));
+    auto v1 = std::make_shared<std::vector <T>>(std::vector<T>{3});
+    assert(isEqual<T>(moving_avg<T>(v1, 1), v1));
+    assert(isEqual<T>(moving_avg<T>(v1, 2), v1));
+    assert(isEqual<T>(moving_avg<T>(v1, 3), v1));
 }
 
 template <typename T>
 void test_equal(){
-    const std::vector <T> v1{1, 2, 3, 4, 5, 6, 623, -1};
-    const std::vector <T> v2{1.5, 2.5, 3.5, 4.5, 5.5, 314.5, 311};
-    const std::vector <T> v3{2, 3, 4, 5, 211.3333, 209.3333};
+    auto v1 = std::make_shared<std::vector <T>>(std::vector<T>{1, 2, 3, 4, 5, 6, 623, -1});
+    auto v2 = std::make_shared<std::vector <T>>(std::vector<T>{1.5, 2.5, 3.5, 4.5, 5.5, 314.5, 311});
+    auto v3 = std::make_shared<std::vector <T>>(std::vector<T>{2, 3, 4, 5, 211.3333, 209.3333});
 
-    assert(isEqual<T>(moving_avg<T, 1>(v1), v1));
-    assert(isEqual<T>(moving_avg<T, 2>(v1), v2));
-    assert(isEqual<T>(moving_avg<T, 3>(v1), v3));
+    assert(isEqual<T>(moving_avg<T>(v1, 1), v1));
+    assert(isEqual<T>(moving_avg<T>(v1, 2), v2));
+    assert(isEqual<T>(moving_avg<T>(v1, 3), v3));
 }
 
 
 template <typename T>
 void test_overflow(){
-    const std::vector <T> v1{std::numeric_limits<T>::max(), 2, 3, 4, 5, 6, 623, -1};
-    const std::vector <T> v2{-std::numeric_limits<T>::max(), -2, -3, -4, -5, -6, 623, -1};
+    auto v1 = std::make_shared<std::vector <T>>(std::vector<T>{std::numeric_limits<T>::max(), 2, 3, 4, 5, 6, 623, -1});
+    auto v2 = std::make_shared<std::vector <T>>(std::vector<T>{-std::numeric_limits<T>::max(), -2, -3, -4, -5, -6, 623, -1});
     try
     {
-        moving_avg<T, 3>(v1);
+        moving_avg<T>(v1, 3);
         assert(false);
     }
     catch(const std::exception& e)
@@ -53,7 +52,7 @@ void test_overflow(){
     }
     try
     {
-        moving_avg<T, 3>(v2);
+        moving_avg<T>(v2, 3);
         assert(false);
     }
     catch(const std::exception& e)
@@ -69,6 +68,7 @@ int main(){
     test_equal<float>();
     test_equal<double>();
     test_overflow<float>();
+    test_overflow<double>();
     std::cout << COMPLETE_STRING;
     return 0;
 }
