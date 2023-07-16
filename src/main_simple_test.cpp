@@ -48,7 +48,7 @@ void test_overflow(){
     }
     catch(const std::exception& e)
     {
-        assert(typeid(e)==typeid(std::overflow_error("Type overflow!")));
+        assert(typeid(e)==typeid(std::overflow_error(TYPE_OVEFLOW_STR)));
     }
     try
     {
@@ -57,9 +57,32 @@ void test_overflow(){
     }
     catch(const std::exception& e)
     {
-        assert(typeid(e)==typeid(std::underflow_error("Type underflow!")));
+        assert(typeid(e)==typeid(std::underflow_error(TYPE_UNDERLOW_STR)));
     }
     
+}
+
+void test_arguments(){
+    auto v1 = std::make_shared<std::vector <float>>(std::vector<float>());
+    try
+    {   
+
+        moving_avg<float>(v1, 3);
+        assert(false);
+    }
+    catch(const std::exception& e)
+    {
+        assert(typeid(e)==typeid(std::invalid_argument(INVALID_VECTOR_LENGRH_ERR_STR)));
+    }
+    try
+    {
+        moving_avg<float>(v1, 0);
+        assert(false);
+    }
+    catch(const std::exception& e)
+    {
+        assert(typeid(e)==typeid(std::invalid_argument(INVALID_WINDOW_LENGRH_ERR_STR)));
+    }
 }
 
 int main(){
@@ -69,6 +92,7 @@ int main(){
     test_equal<double>();
     test_overflow<float>();
     test_overflow<double>();
+    test_arguments();
     std::cout << COMPLETE_STRING;
     return 0;
 }
